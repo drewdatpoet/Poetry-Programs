@@ -1,0 +1,72 @@
+import random as rd
+import tkinter as tk
+from tkinter import simpledialog, messagebox
+
+
+prompts = [
+    "Write a poem about the changing of the seasons.",
+    "Write a letter to your 12 year old self.",
+    "Write a piece about your favorite food. What is its significance.",
+    "Write a poem from the perspective of something that scares you.",
+    "Write a piece from the perspective of an emotion. Where does it live? What are its hobbies?",
+    "Write a poem about your favorite place. What makes it special to you?",
+    "Write a poem about a time you tried your best but still didn't succeed. What did you learn from that experience?",
+    "A solar eclipse happens 3 to 5 times every year. What is something else that happens more often than we realize? Write a poem about it.",
+    "Write a poem from the perspective of an object in your room. What does it see? What does it think about?",
+    "What is something that you wish you could have believed for longer? What would have changed if you could have believed it longer?",
+    "Write a poem about something which has had a change of meaning for you. How did it change? What does it mean to you now?",
+    "Think about the closest holiday or your favorite holiday. Write a poem about it. What makes it special?",
+    "Write a poem about the masks you wear. What value do they bring? What do they hide?",
+    "Write about something that used to have a negative connotation but no longer does. How has it changed? What does it mean to you now?",
+    "What advice would you give to someone who is living through the idea of 'it gets worse before it gets better'?",
+    "Write a poem about the perfect summer day. What makes it perfect? What does it sound like? What does it smell like? What does it feel like?",
+    "Write a poem about the perfect winter day. What makes it perfect? What does it sound like? What does it smell like? What does it feel like?",
+    "Write a poem about the perfect spring day. What makes it perfect? What does it sound like? What does it smell like? What does it feel like?",
+    "Write a poem about the perfect autumn day. What makes it perfect? What does it sound like? What does it smell like? What does it feel like?",
+    "Write a piece about your favorite aphorism (saying). Does it have deeper meaning than how people usually use it? What does it mean to you?"
+]
+
+def add_prompt():
+    new_prompt = input("Enter a new poetry prompt: ") # type: ignore
+    if new_prompt not in prompts:
+        prompts.append(new_prompt)
+        print(f"Prompt '{new_prompt}' added successfully!")
+    else:
+        print(f"Prompt '{new_prompt}' already exists.")
+
+def get_random_prompt():
+    selected_prompt = rd.choice(prompts)
+    print(f"Your random poetry prompt is: {selected_prompt}")
+
+class PromptGeneratorApp:
+    def __init__(self, master):
+        self.master = master
+        master.title("Random Poetry Prompt Generator")
+
+        self.label = tk.Label(master, text="Click the button to get a random poetry prompt!")
+        self.label.pack(pady=10)
+
+        self.generate_button = tk.Button(master, text="Generate Prompt", command=self.display_prompt)
+        self.generate_button.pack(pady=5)
+
+        self.add_button = tk.Button(master, text="Add New Prompt", command=self.add_new_prompt)
+        self.add_button.pack(pady=5)
+
+        self.prompt_display = tk.Label(master, text="", wraplength=400)
+        self.prompt_display.pack(pady=10)
+
+    def display_prompt(self):
+        selected_prompt = rd.choice(prompts)
+        self.prompt_display.config(text=selected_prompt)
+
+    def add_new_prompt(self):
+        new_prompt = tk.simpledialog.askstring("Input", "Enter a new poetry prompt:")
+        if new_prompt and new_prompt not in prompts:
+            prompts.append(new_prompt)
+            tk.messagebox.showinfo("Success", f"Prompt '{new_prompt}' added successfully!")
+        elif new_prompt:
+            tk.messagebox.showwarning("Warning", f"Prompt '{new_prompt}' already exists.")
+
+root = tk.Tk()
+app = PromptGeneratorApp(root)
+root.mainloop()
